@@ -1,20 +1,20 @@
 ## 了解 skywalking 的相关 graphql 接口
 
-### 通过 查看sky walking 的在线演示地址 <https://skywalking.apache.org/>  进入对应页面
+### 通过 查看 sky walking 的在线演示地址 <https://skywalking.apache.org/> 进入对应页面
 
-### 记录页面上的逻辑按照依次顺序如下
+### 记录页面上的调用逻辑按照顺序依次如下
 
-#### 1. 查询service
+#### 1. 查询 service
 
 请求
 
-``` query
-query queryServices($duration: Duration!,$keyword: String!) {    
-    services: getAllServices(duration: $duration, group: $keyword) {      
-        key: id      
-        label: name      
-        group    
-    }  
+```query
+query queryServices($duration: Duration!,$keyword: String!) {
+    services: getAllServices(duration: $duration, group: $keyword) {
+        key: id
+        label: name
+        group
+    }
 }
 ```
 
@@ -39,7 +39,7 @@ query queryServices($duration: Duration!,$keyword: String!) {
                 "key": "YWdlbnQ6OnNvbmdz.1",
                 "label": "agent::songs",
                 "group": "agent"
-            },            
+            },
             {
                 "key": "YWdlbnQ6OmZyb250ZW5k.1",
                 "label": "agent::frontend",
@@ -54,7 +54,7 @@ query queryServices($duration: Duration!,$keyword: String!) {
 
 请求
 
-``` query
+```query
  query queryServiceInstance($duration: Duration!, $serviceId: ID!) {
         instanceId: getServiceInstances(duration: $duration, serviceId: $serviceId) {
             key: id
@@ -79,7 +79,7 @@ query queryServices($duration: Duration!,$keyword: String!) {
 ```result
 {
     "data": {
-        "instanceId": [s            
+        "instanceId": [s
             {
                 "key": "YWdlbnQ6OnNvbmdz.1_N2E5Mzk3NTY1MmNiNGJiNjkwMTY0NTc5M2U5YjA3OWNAMTAuMTE2LjMuMTU=",
                 "label": "7a93975652cb4bb6901645793e9b079c@10.116.3.15"
@@ -93,7 +93,7 @@ query queryServices($duration: Duration!,$keyword: String!) {
 
 请求
 
-``` query
+```query
 query queryEndpoints($serviceId: ID!, $keyword: String!) {
       pods: findEndpoint(serviceId: $serviceId, keyword: $keyword, limit: 20) {
         id
@@ -135,11 +135,11 @@ query queryEndpoints($serviceId: ID!, $keyword: String!) {
 }
 ```
 
-#### 4. 查询trace
+#### 4. 查询 trace
 
 请求
 
-``` query
+```query
 query queryTraces($condition: TraceQueryCondition) {
      queryBasicTraces(condition: $condition) {
             traces {
@@ -156,10 +156,10 @@ query queryTraces($condition: TraceQueryCondition) {
 
 ```GRAPHQL VARIABLES
 {
-    "condition":{     
+    "condition":{
             "queryDuration": {
                 "start": "2024-09-29 1411",
-                "end": "2024-09-29 1441", 
+                "end": "2024-09-29 1441",
                 "step": "MINUTE"
             },
             "traceState": "ALL",
@@ -191,7 +191,7 @@ query queryTraces($condition: TraceQueryCondition) {
                     "traceIds": [
                         "d357ee92-fc12-4b03-83f4-dbf63038e448"
                     ]
-                },                
+                },
                 {
                     "key": "6f3b67caeafdf460",
                     "endpointNames": [
@@ -210,10 +210,11 @@ query queryTraces($condition: TraceQueryCondition) {
 }
 ```
 
-## 上面的接口 官方地址  
+## 上面的接口 官方地址
 
 https://skywalking.apache.org/docs/main/latest/en/api/query-protocol/
 https://github.com/apache/skywalking-query-protocol
 
 ## 说明
- 本次只是想统计🔝时间内的接口调用次数和 执行时间,所以 把 1 和4 接口组合就可以遍历全量数据了,参考sky walking2.py
+
+本次只是想统计 🔝 时间内的接口调用次数和 执行时间,所以 把 1 和 4 接口组合就可以遍历全量数据了,参考 sky walking2.py
